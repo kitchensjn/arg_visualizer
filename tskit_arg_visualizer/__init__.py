@@ -408,7 +408,7 @@ class D3ARG:
                     "alt_parent": alternative_parent, #recombination nodes have an alternative parent
                     "alt_child": alternative_child,
                     "region_fraction": region_size / ts.sequence_length,
-                    "stroke": "#053e4e"
+                    "stroke": "#053e4e",
                 })
                 ID += 1
             if edge.parent in recombination_nodes_to_merge:
@@ -435,10 +435,12 @@ class D3ARG:
                     middle = (new_edge[3] + new_edge[4]) / 2
                     plot_time = middle + random.uniform(-(new_edge[3]-middle),(new_edge[3]-middle))
                     fill = "gold"
+                    stroke = "#053e4e"
                     mut_time = -1
                 else:
                     plot_time = mut.time
                     fill = "orange"
+                    stroke = "#053e4e"
                 inherited_state = site.ancestral_state if mut.parent == tskit.NULL else ts.mutation(mut.parent).derived_state
                 mutations.append({
                     "edge": new_edge[0],
@@ -452,9 +454,10 @@ class D3ARG:
                     "ancestral": site.ancestral_state,
                     "inherited": inherited_state,
                     "derived": mut.derived_state,
-                    "fill": fill
+                    "fill": fill,
+                    "stroke": stroke,
                 })
-        mutations_output = pd.DataFrame(mutations, columns=["edge","source","target","time","plot_time","site_id","position","position_01","ancestral","inherited","derived","fill"])
+        mutations_output = pd.DataFrame(mutations, columns=["edge","source","target","time","plot_time","site_id","position","position_01","ancestral","inherited","derived","fill","stroke"])
         return edges_output, mutations_output
    
     def _identify_breakpoints(ts):
@@ -851,6 +854,7 @@ class D3ARG:
                             "site_id": edge,
                             "x_pos": list(x_pos),
                             "fill": "pink",
+                            "stroke": "#053e4e",
                             "active": "false",
                             "label": "⨉"+str(muts.shape[0]),
                             "content": "<br>".join(muts.content)
@@ -884,6 +888,7 @@ class D3ARG:
                                 "inherited": mut.inherited,
                                 "derived": mut.derived,
                                 "fill": mut.fill,
+                                "stroke": mut.stroke,
                                 "active": "false",
                                 "label": label,
                                 "content": content

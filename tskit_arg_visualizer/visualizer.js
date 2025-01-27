@@ -437,7 +437,7 @@ require(["d3"], function(d3) {
                     d3.select(this)
                         .style("cursor", "default")
                         .selectAll("rect")
-                            .style("stroke", "#053e4e")
+                            .style("stroke", i.stroke)
                             .style("fill", i.fill);
                     d3.select("#arg${divnum}_mut" + i.site_id).style("display", "none");
                     tip.style("display", "none");
@@ -457,7 +457,7 @@ require(["d3"], function(d3) {
                 .attr("width", mutation_rect_width)
                 .attr("height", mutation_rect_height)
                 .attr("fill", function(d) { return d.fill; })
-                .attr("stroke", "#053e4e")
+                .attr("stroke", function(d) { return d.stroke; })
                 .attr("stroke-width", 2);
 
         if ($include_mutation_labels) {
