@@ -149,6 +149,15 @@ class D3ARG:
 
     """
 
+    node_defaults = {
+        "size": 150,
+        "symbol": "d3.symbolCircle",
+        "fill": "#1eebb1",
+        "stroke": "#053e4e",
+        "stroke_width": 4,
+        "include_label": "true",
+    }
+
     def __init__(self, nodes, edges, mutations, breakpoints, num_samples, sample_order):
         """Initializes a D3ARG object
 
@@ -287,20 +296,14 @@ class D3ARG:
             omit_nodes[ts.edges_child] = False
 
         nodes = {
-            u: {
+            u: (self.node_defaults | {
                 "id": u,
                 "flag": flags,
                 "time": time,
                 "child_of": set(),  # will later convert to list
                 "parent_of": set(),  # will later convert to list
-                "size": 150,
-                "symbol": "d3.symbolCircle",
-                "fill": "#1eebb1",
-                "stroke": "#053e4e",
-                "stroke_width": 4,
-                "include_label": "true",
                 "x_pos_reference": -1,
-            }
+            })
             for u, (flags, time) in enumerate(zip(ts.nodes_flags, ts.nodes_time))
             if not (ignore_unattached_nodes and omit_nodes[u]) and not merge_with_prev_node[u]
         }
@@ -527,13 +530,8 @@ class D3ARG:
         
         WARNING: This might not match the initial styles if using D3ARG.from_json
         """
-
-        self.nodes["size"] = 150
-        self.nodes["symbol"] = "d3.symbolCircle"
-        self.nodes["fill"] = "#1eebb1"
-        self.nodes["stroke"] = "#053e4e"
-        self.nodes["stroke_width"] = 4
-        self.nodes["include_label"] = "true"
+        for k, v in self.node_defaults.items():
+            self.nodes[k] = v
 
     def set_all_node_styles(self, size="", symbol="", fill="", stroke="", stroke_width="", include_label=""):
         """Sets the styling of all of the nodes at once for a specific option.
@@ -946,7 +944,7 @@ class D3ARG:
                 "links":edges.to_dict("records"),
                 "mutations":transformed_muts,
                 "breakpoints":transformed_bps,
-                "evenly_distributed_positions":sample_positions
+                "evenly_distributed_positions":sample_positions,
             },
             "width":width,
             "height":height,
@@ -1047,19 +1045,13 @@ class D3ARG:
                 # possible to have edges that have the same source and target IDs. The visualizer
                 # does not care, though if there are many edges it could slow down the simulation.
                 nodes = nodes.drop(nodes_to_drop.index)
-                new_node = pd.DataFrame([{
+                new_node = pd.DataFrame([ self.node_defaults | {
                     "id":f"S{i}",
                     "flag":99,
                     "time":nodes_to_drop["time"].mean(),
                     "child_of":nodes_to_drop["child_of"].sum(),
                     "parent_of":nodes_to_drop["parent_of"].sum(),
                     # These don't work as intended, and instead need to be updated with the summary node IDs
-                    "size":150,
-                    "symbol":"d3.symbolCircle",
-                    "fill":"#FFFFFF",
-                    "stroke":"#053e4e",
-                    "stroke_width":4,
-                    "include_label":"true",
                     "x_pos_reference":-1,
                     "label":f"S{i}"
                 }])
