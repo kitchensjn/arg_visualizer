@@ -98,7 +98,7 @@ def draw_D3(arg_json, force_notebook=False):
     else:
         with tempfile.NamedTemporaryFile("w", delete=False, suffix=".html") as f:
             url = "file://" + f.name
-            f.write("<!DOCTYPE html><html><head><meta charset='utf-8'><style>"+styles+"</style><script src='https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js'></script></head><body>" + html + "</body></html>")
+            f.write("<!DOCTYPE html><html><head><meta charset='utf-8'><style>"+styles+"</style></head><body>" + html + "</body></html>")
         webbrowser.open(url, new=2)
 
 class D3ARG:

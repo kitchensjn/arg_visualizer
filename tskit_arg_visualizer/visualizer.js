@@ -1,10 +1,28 @@
-require.config({ 
-    paths: { 
-        d3: 'https://d3js.org/d3.v7.min'
+function ensureRequire() {
+    // Needed e.g. in Jupyter notebooks: if require is already available, return resolved promise
+    if (typeof require !== 'undefined') {
+        return Promise.resolve(require);
     }
-});
 
-require(["d3"], function(d3) {
+    // Otherwise, dynamically load require.js
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js';
+        script.onload = () => resolve(require);
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+};
+
+ensureRequire()
+    .then(require => {
+        require.config({ paths: {d3: 'https://d3js.org/d3.v7.min'}});
+        require(["d3"], main_visualizer);
+    })
+    .catch(err => console.error('Failed to load require.js:', err));
+
+
+function main_visualizer(d3) {
     /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
     
     function download (url, name, opts) {
@@ -1065,4 +1083,4 @@ require(["d3"], function(d3) {
     }
 
     draw_force_diagram()
-})
+}
