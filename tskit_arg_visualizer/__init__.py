@@ -298,7 +298,7 @@ class D3ARG:
                 "fill": "#1eebb1",
                 "stroke": "#053e4e",
                 "stroke_width": 4,
-                "include_label": "true",
+                #"include_label": "true",
                 "x_pos_reference": -1,
             }
             for u, (flags, time) in enumerate(zip(ts.nodes_flags, ts.nodes_time))
@@ -533,9 +533,9 @@ class D3ARG:
         self.nodes["fill"] = "#1eebb1"
         self.nodes["stroke"] = "#053e4e"
         self.nodes["stroke_width"] = 4
-        self.nodes["include_label"] = "true"
+        #self.nodes["include_label"] = "true"
 
-    def set_all_node_styles(self, size="", symbol="", fill="", stroke="", stroke_width="", include_label=""):
+    def set_all_node_styles(self, size=None, symbol=None, fill=None, stroke=None, stroke_width=None):#, include_label=""):
         """Sets the styling of all of the nodes at once for a specific option.
 
         If optional parameter not provided, that styling option will be ignored and unchanged.
@@ -556,18 +556,18 @@ class D3ARG:
             "true" or "false" (will need to update this to bool eventually)
         """
 
-        if size != "":
+        if size != None:
             self.nodes["size"] = size
-        if symbol != "":
+        if symbol != None:
             self.nodes["symbol"] = symbol
-        if fill != "":
+        if fill != None:
             self.nodes["fill"] = fill
-        if stroke != "":
+        if stroke != None:
             self.nodes["stroke"] = stroke
-        if stroke_width != "":
+        if stroke_width != None:
             self.nodes["stroke_width"] = stroke_width
-        if include_label != "":
-            self.nodes["include_label"] = include_label
+        #if include_label != "":
+        #    self.nodes["include_label"] = include_label
         
     def set_node_styles(self, styles):
         """Individually control the styling of each node.
@@ -575,14 +575,13 @@ class D3ARG:
         Parameters
         ----------
         styles : list
-            List of dicts, one per node, with the styling keys: id, size, symbol, fill, stroke, stroke_width,
-            include_label. "id" is the only mandatory key. Only nodes that need styles updated need to
-            be provided.
+            List of dicts, one per node, with the styling keys: id, size, symbol, fill, stroke, stroke_width.
+            "id" is the only mandatory key. Only nodes that need styles updated need to be provided.
         """
 
         for node in styles:
             for key in node.keys():
-                if key in ["size", "symbol", "fill", "stroke", "stroke_width", "include_label"]:
+                if key in ["size", "symbol", "fill", "stroke", "stroke_width"]:#, "include_label"]:
                     self.nodes.loc[self.nodes["id"]==node["id"], key] = node[key]
         
     def set_edge_colors(self, colors):
@@ -1059,7 +1058,7 @@ class D3ARG:
                     "fill":"#FFFFFF",
                     "stroke":"#053e4e",
                     "stroke_width":4,
-                    "include_label":"true",
+                    #"include_label":"true",
                     "x_pos_reference":-1,
                     "label":f"S{i}"
                 }])

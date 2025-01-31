@@ -27,7 +27,7 @@
 }
 
 .dashboard .dashbutton .tip {
-    width: 120px;
+    width: 150px;
     font-size: 12px;
     background-color: lightgrey;
     color: #053e4e;
@@ -57,7 +57,7 @@
     fill: #1eebb1;
 }
 
-.savemethods {
+.savemethods, .labelmethods {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -65,7 +65,7 @@
     flex-wrap: wrap;
 }
 
-.savemethods button {
+.savemethods button, .labelmethods button {
     background-color: lightgrey;
     color: #053e4e;
     font-size: 12px;
@@ -73,10 +73,13 @@
     border: none;
 }
 
-.savemethods button:hover {
+.savemethods button:hover, .labelmethods button:hover {
     color: #1eebb1;
 }
 
+.labelmethods button.node-labels-default {
+    text-decoration: underline;
+}
 
 .yaxis path {
     stroke: #053e4e;
